@@ -1,0 +1,68 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "Character",
+"language": "GDScript",
+"path": "res://Character/Character.gd"
+}, {
+"base": "Node",
+"class": "Event",
+"language": "GDScript",
+"path": "res://Events/Event.gd"
+}, {
+"base": "Node",
+"class": "Music",
+"language": "GDScript",
+"path": "res://Music/Music.gd"
+}, {
+"base": "Object",
+"class": "Random",
+"language": "GDScript",
+"path": "res://Random.gd"
+}, {
+"base": "Resource",
+"class": "Trait",
+"language": "GDScript",
+"path": "res://Character/Traits/Trait.gd"
+} ]
+_global_script_class_icons={
+"Character": "",
+"Event": "",
+"Music": "",
+"Random": "",
+"Trait": ""
+}
+
+[application]
+
+config/name="aca-jam"
+run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+VolumeManager="*res://Music/VolumeManager.gd"
+EventManager="*res://Events/EventManager.gd"
+GroupManager="*res://Group/GroupManager.gd"
+TraitManager="*res://Character/Traits/TraitManager.gd"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

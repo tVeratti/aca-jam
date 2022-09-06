@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Character/Traits/Trait.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+id = "quick_learner"
+title = "Quick Learner"
+description = "Less likely to forget lyrics."
+duration = 0
+target = 1
+type = 0
+modifier = 1.0
