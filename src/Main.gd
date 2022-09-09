@@ -1,5 +1,6 @@
 extends Spatial
 
+const GroupScene = preload("res://Group/Group.tscn")
 const AuditionScene = preload("res://Events/Audition/Audition.tscn")
 
 onready var scene:Spatial = $Scene
@@ -13,6 +14,11 @@ func _ready():
 	to_audition()
 
 
+func to_group() -> void:
+	var group = GroupScene.instance()
+	scene.add_child(group)
+
+
 func to_audition() -> void:
 	var audition = AuditionScene.instance()
 	scene.add_child(audition)
@@ -24,4 +30,4 @@ func _on_select_event(event_type:int) -> void:
 
 
 func _on_end_event() -> void:
-	pass
+	to_group()

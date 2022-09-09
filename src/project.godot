@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Random.gd"
 }, {
+"base": "Node",
+"class": "Songs",
+"language": "GDScript",
+"path": "res://Music/Songs/Songs.gd"
+}, {
 "base": "Resource",
 "class": "Trait",
 "language": "GDScript",
@@ -39,6 +44,7 @@ _global_script_class_icons={
 "Event": "",
 "Music": "",
 "Random": "",
+"Songs": "",
 "Trait": ""
 }
 
@@ -50,10 +56,11 @@ config/icon="res://icon.png"
 
 [autoload]
 
-VolumeManager="*res://Music/VolumeManager.gd"
 EventManager="*res://Events/EventManager.gd"
 GroupManager="*res://Group/GroupManager.gd"
 TraitManager="*res://Character/Traits/TraitManager.gd"
+TimingManager="*res://Music/TimingManager.gd"
+BusManager="*res://Music/BusManager.gd"
 
 [gui]
 

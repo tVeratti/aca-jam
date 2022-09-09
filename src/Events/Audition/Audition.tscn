@@ -86,12 +86,23 @@ custom_constants/separation = 20
 [node name="Buttons" type="VBoxContainer" parent="CanvasLayer/Interface/Layout"]
 margin_top = 240.0
 margin_right = 984.0
-margin_bottom = 300.0
+margin_bottom = 360.0
 custom_constants/separation = 20
 
-[node name="Auditioner" type="HBoxContainer" parent="CanvasLayer/Interface/Layout/Buttons"]
+[node name="Utilities" type="HBoxContainer" parent="CanvasLayer/Interface/Layout/Buttons"]
 margin_right = 984.0
-margin_bottom = 20.0
+margin_bottom = 40.0
+
+[node name="AllSing" type="CheckButton" parent="CanvasLayer/Interface/Layout/Buttons/Utilities"]
+margin_right = 127.0
+margin_bottom = 40.0
+pressed = true
+text = "All Sing"
+
+[node name="Auditioner" type="HBoxContainer" parent="CanvasLayer/Interface/Layout/Buttons"]
+margin_top = 60.0
+margin_right = 984.0
+margin_bottom = 80.0
 
 [node name="Yes" type="Button" parent="CanvasLayer/Interface/Layout/Buttons/Auditioner"]
 margin_right = 34.0
@@ -111,11 +122,14 @@ margin_bottom = 20.0
 text = "Skip"
 
 [node name="Exit" type="Button" parent="CanvasLayer/Interface/Layout/Buttons"]
-margin_top = 40.0
+margin_top = 100.0
 margin_right = 984.0
-margin_bottom = 60.0
+margin_bottom = 120.0
 text = "End Audition"
 
+[node name="Characters" type="Spatial" parent="."]
+
+[connection signal="toggled" from="CanvasLayer/Interface/Layout/Buttons/Utilities/AllSing" to="." method="_on_AllSing_toggled"]
 [connection signal="pressed" from="CanvasLayer/Interface/Layout/Buttons/Auditioner/Yes" to="." method="_on_Yes_pressed"]
 [connection signal="pressed" from="CanvasLayer/Interface/Layout/Buttons/Auditioner/No" to="." method="_on_No_pressed"]
 [connection signal="pressed" from="CanvasLayer/Interface/Layout/Buttons/Auditioner/Skip" to="." method="_on_Skip_pressed"]

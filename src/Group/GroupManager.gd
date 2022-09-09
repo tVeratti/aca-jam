@@ -1,12 +1,11 @@
 extends Node
 
 
-signal add_character(character)
-signal add_song(song)
-signal add_outfit(outfit)
+signal characters_changed()
+signal resources_changed()
 
 
-var money:int = 100
+var money:int = 100 setget _set_money
 
 # All available resources
 var characters:Array = []
@@ -25,6 +24,11 @@ func try_add_character(character) -> bool:
 	money -= character.cost
 	
 	characters.append(character)
-	emit_signal("add_character", character)
+	emit_signal("characters_changed")
 	
 	return true
+
+
+func _set_money(value) -> void:
+	money = value
+	emit_signal("resources_changed")

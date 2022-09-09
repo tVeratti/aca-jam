@@ -4,6 +4,8 @@ const NUM_AUDITIONERS:int = 5
 const NAMES_FIRST_PATH:String = "res://Character/names_first.json"
 const NAMES_LAST_PATH:String = "res://Character/names_last.json"
 
+const CharacterPerformingScene = preload("res://Character/CharacterPerforming.tscn")
+
 var all_names_first:Array = []
 var all_names_last:Array = []
 
@@ -11,10 +13,16 @@ var all_names_last:Array = []
 var auditioners:Array = []
 var current_auditioner
 var current_index:int = 0
+var all_sing:bool = true setget _set_all_sing
 
+var song:String = Songs.SINCE_U_BEEN_GONE
+
+# Character Nodes
+onready var characters_performing = $Characters
+
+# Interface Nodes
 onready var money_label:Label = get_node("%Money")
 onready var characters_box:HBoxContainer = get_node("%Characters")
-
 onready var auditioner_dots:HBoxContainer = $CanvasLayer/Interface/Layout/Auditioners
 onready var name_label:Label = get_node("%Name")
 onready var cost_label:Label = get_node("%Cost")
@@ -52,9 +60,20 @@ func _generate_auditioners():
 		auditioner.last_name = Random.get_random_item(all_names_last)
 		auditioners.append(auditioner)
 		
+		var performing = CharacterPerformingScene.instance()
+		performing.character = auditioner
+		performing.song = song
+		characters_performing.add_child(performing)
+		
 		var dot:ColorRect = ColorRect.new()
 		auditioner_dots.add_child(dot)
 		dot.rect_min_size = Vector2(10, 10)
+	
+	if all_sing:
+		characters_performing.get_child(0).is_captain = true
+		for performer in characters_performing.get_children():
+			BusManager.set_character_volume(performer.character, BusManager.QUIET_VOLUME)
+			performer.sing(true)
 
 
 func render_auditioner():
@@ -97,6 +116,12 @@ func auditioner_no():
 
 
 func auditioner_skip() -> void:
+	var performer = characters_performing.get_node(current_auditioner.id)
+	BusManager.set_character_volume(performer.character, BusManager.QUIET_VOLUME)
+	
+	if not all_sing:
+		performer.sing(false)
+	
 	current_index += 1
 	auditioner_next()
 
@@ -107,9 +132,21 @@ func auditioner_next() -> void:
 		if current_index >= auditioners.size(): current_index = 0
 		current_auditioner = auditioners[current_index]
 		render_auditioner()
+		
+		var character_performing = characters_performing.get_node(current_auditioner.id)
+		if not all_sing:
+			character_performing.play_from_captain()
+			character_performing.sing(true)
+			character_performing.is_captain = true
+			
+		BusManager.set_character_volume(character_performing.character, BusManager.DEFAULT_VOLUME)
 
 
 func end_audition():
+	for remainder in auditioners:
+		var bus_index:int = AudioServer.get_bus_index(remainder.id)
+		AudioServer.remove_bus(bus_index)
+	
 	EventManager.end_event()
 	queue_free()
 
@@ -117,8 +154,36 @@ func end_audition():
 func _remove_auditioner() -> void:
 	auditioners.erase(current_auditioner)
 	auditioner_dots.remove_child(auditioner_dots.get_child(0))
+	characters_performing.remove_child(characters_performing.get_node(current_auditioner.id))
+	
+	var bus_index:int = AudioServer.get_bus_index(current_auditioner.id)
+	AudioServer.remove_bus(bus_index)
+	
 	if auditioners.empty(): end_audition()
 
+
+func _set_all_sing(value):
+	if all_sing == value: return
+	all_sing = value
+	
+	if all_sing:
+		for performer in characters_performing.get_children():
+			var volume = BusManager.QUIET_VOLUME \
+				if performer.character.id != current_auditioner.id else \
+				BusManager.DEFAULT_VOLUME
+			
+			BusManager.set_character_volume(performer.character, volume)
+			performer.play_from_captain()
+			performer.sing(true)
+	else:
+		for performer in characters_performing.get_children():
+			if current_auditioner.id == performer.character.id:
+				performer.is_captain = true
+				BusManager.set_character_volume(performer.character, BusManager.DEFAULT_VOLUME)
+			else:
+				performer.sing(false)
+				performer.is_captain = false
+			
 
 # Node Signals
 
@@ -136,3 +201,7 @@ func _on_Skip_pressed():
 
 func _on_Exit_pressed():
 	end_audition()
+
+
+func _on_AllSing_toggled(button_pressed):
+	self.all_sing = button_pressed
