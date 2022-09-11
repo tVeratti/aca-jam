@@ -9,7 +9,9 @@ var money:int = 100 setget _set_money
 
 # All available resources
 var characters:Array = []
-var songs:Array = []
+var songs:Array = [
+	Songs.SINCE_U_BEEN_GONE
+]
 var outfits:Array = []
 
 # Active for Next Event

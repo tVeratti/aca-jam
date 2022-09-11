@@ -2,9 +2,9 @@ extends Spatial
 
 const GroupScene = preload("res://Group/Group.tscn")
 const AuditionScene = preload("res://Events/Audition/Audition.tscn")
+const PracticeScene = preload("res://Events/Practice/Practice.tscn")
 
 onready var scene:Spatial = $Scene
-
 
 
 func _ready():
@@ -24,9 +24,15 @@ func to_audition() -> void:
 	scene.add_child(audition)
 
 
+func to_practice() -> void:
+	var practice = PracticeScene.instance()
+	scene.add_child(practice)
+
+
 func _on_select_event(event_type:int) -> void:
 	match(event_type):
 		Event.Types.AUDITION: to_audition()
+		Event.Types.PRACTICE: to_practice()
 
 
 func _on_end_event() -> void:

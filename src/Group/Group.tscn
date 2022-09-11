@@ -26,23 +26,23 @@ custom_constants/separation = 20
 
 [node name="Resources" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Layout"]
 margin_right = 984.0
-margin_bottom = 14.0
+margin_bottom = 21.0
 
 [node name="Money" type="Label" parent="CanvasLayer/MarginContainer/Layout/Resources"]
 unique_name_in_owner = true
-margin_bottom = 14.0
+margin_bottom = 21.0
 
-[node name="Characters" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Layout"]
+[node name="Characters" type="GridContainer" parent="CanvasLayer/MarginContainer/Layout"]
 unique_name_in_owner = true
-margin_top = 34.0
+margin_top = 41.0
 margin_right = 984.0
-margin_bottom = 34.0
-custom_constants/separation = 20
+margin_bottom = 41.0
+columns = 3
 
 [node name="Actions" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Layout"]
-margin_top = 54.0
+margin_top = 61.0
 margin_right = 984.0
-margin_bottom = 134.0
+margin_bottom = 141.0
 custom_constants/separation = 10
 
 [node name="Audition" type="Button" parent="CanvasLayer/MarginContainer/Layout/Actions"]

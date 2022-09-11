@@ -24,10 +24,8 @@ onready var characters_performing = $Characters
 onready var money_label:Label = get_node("%Money")
 onready var characters_box:HBoxContainer = get_node("%Characters")
 onready var auditioner_dots:HBoxContainer = $CanvasLayer/Interface/Layout/Auditioners
-onready var name_label:Label = get_node("%Name")
+onready var portrait = get_node("%Portrait")
 onready var cost_label:Label = get_node("%Cost")
-onready var voice_label:Label = get_node("%Voice")
-onready var traits_box:HBoxContainer = get_node("%Traits")
 
 
 func _init():
@@ -37,6 +35,10 @@ func _init():
 func _ready():
 	_load_random_names()
 	_generate_auditioners()
+	
+	TimingManager.song = song
+	TimingManager.start()
+	
 	render_group()
 	auditioner_next()
 
@@ -70,23 +72,14 @@ func _generate_auditioners():
 		dot.rect_min_size = Vector2(10, 10)
 	
 	if all_sing:
-		characters_performing.get_child(0).is_captain = true
 		for performer in characters_performing.get_children():
 			BusManager.set_character_volume(performer.character, BusManager.QUIET_VOLUME)
 			performer.sing(true)
 
 
 func render_auditioner():
-	name_label.text = current_auditioner.full_name
+	portrait.character = current_auditioner
 	cost_label.text = "$%s" % current_auditioner.cost
-	voice_label.text = Character.VoiceRanges.keys()[current_auditioner.voice_range]
-	
-	for child in traits_box.get_children(): child.queue_free()
-	
-	for trait in current_auditioner.traits:
-		var label = Label.new()
-		label.text = "%s\n%s" % [trait.title, trait.description]
-		traits_box.add_child(label)
 	
 	for dot in auditioner_dots.get_children(): dot.color = Color.darkgray
 	auditioner_dots.get_child(current_index).color = Color.white
@@ -135,9 +128,7 @@ func auditioner_next() -> void:
 		
 		var character_performing = characters_performing.get_node(current_auditioner.id)
 		if not all_sing:
-			character_performing.play_from_captain()
 			character_performing.sing(true)
-			character_performing.is_captain = true
 			
 		BusManager.set_character_volume(character_performing.character, BusManager.DEFAULT_VOLUME)
 
@@ -173,16 +164,13 @@ func _set_all_sing(value):
 				BusManager.DEFAULT_VOLUME
 			
 			BusManager.set_character_volume(performer.character, volume)
-			performer.play_from_captain()
 			performer.sing(true)
 	else:
 		for performer in characters_performing.get_children():
 			if current_auditioner.id == performer.character.id:
-				performer.is_captain = true
 				BusManager.set_character_volume(performer.character, BusManager.DEFAULT_VOLUME)
 			else:
 				performer.sing(false)
-				performer.is_captain = false
 			
 
 # Node Signals

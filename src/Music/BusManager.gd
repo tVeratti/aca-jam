@@ -15,7 +15,7 @@ func get_character_bus(character) -> int:
 		
 		var pitch_shift_effect := AudioEffectPitchShift.new()
 		pitch_shift_effect.pitch_scale = character.pitch_shift
-		pitch_shift_effect.oversampling = 6
+		pitch_shift_effect.oversampling = 4
 		AudioServer.add_bus_effect(bus_index, pitch_shift_effect)
 		
 		var voice_delay = TimingManager.register_voice(character.voice_range)

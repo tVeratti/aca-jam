@@ -1,9 +1,9 @@
 extends Spatial
 
-const PortraitScene = preload("res://Group/Portrait.tscn")
+const PortraitScene = preload("res://Character/Portrait.tscn")
 
 onready var money_label:Label = get_node("%Money")
-onready var characters_box:HBoxContainer = get_node("%Characters")
+onready var characters_box = get_node("%Characters")
 
 
 func _ready():
@@ -44,7 +44,7 @@ func _on_resources_changed():
 	render_resources()
 
 
-func _on_select_event():
+func _on_select_event(_type):
 	queue_free()
 
 

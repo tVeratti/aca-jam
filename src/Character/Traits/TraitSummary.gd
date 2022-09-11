@@ -1,16 +1,22 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var trait setget _set_trait
+
+onready var name_label:Label = get_node("%Name")
+onready var description_label:Label = get_node("%Description")
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	render_trait()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func render_trait():
+	if trait != null and is_instance_valid(name_label):
+		name_label.text = trait.title
+		description_label.text = trait.description
+
+
+func _set_trait(value):
+	trait = value
+	render_trait()

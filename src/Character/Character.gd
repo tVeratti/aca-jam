@@ -32,11 +32,11 @@ func generate() -> void:
 	voice_range = Random.get_random_item(VoiceRanges.values())
 	
 	# Shift pitch by octaves instead of random amounts
-	var octave_shift:int = (randi() % 3) + 1
+	var octave_shift:int = (randi() % 2) + 1
 	match(octave_shift):
-		1: pitch_shift = 0.25 # down 2 octave
-		2: pitch_shift = 0.50 # down 1 octave
-		3: pitch_shift = 1.00 # no change
+#		1: pitch_shift = 0.25 # down 2 octave
+		1: pitch_shift = 0.50 # down 1 octave
+		2: pitch_shift = 1.00 # no change
 #		3: pitch_shift = 2.00 # up 1 octave
 #		5: pitch_shift = 4.00 # up 2 octave
 	
